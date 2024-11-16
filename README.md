@@ -1,5 +1,15 @@
 # Walmart-Global-Tech
 Advanced Software Engineering Job Simulation task I have done 
+## Walmart USA Advanced Software Engineering Skills Learned
+# Data Munging
+# Data Structures
+# Java
+# Optimization
+# Python
+# Relational Database Design
+# Software Architecture
+# SQL
+# UML
 
 ## Walmart USA Advanced Software Engineering Virtual Experience Program on Forage -
 November 2024
