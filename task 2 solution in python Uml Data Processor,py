@@ -1,0 +1,116 @@
+from enum import Enum, auto
+
+# Enums for processor modes
+class ModeIdentifier(Enum):
+    DUMP = auto()
+    PASSTHROUGH = auto()
+    VALIDATE = auto()
+
+# Enums for database types
+class DatabaseIdentifier(Enum):
+    POSTGRES = auto()
+    REDIS = auto()
+    ELASTIC = auto()
+
+# Placeholder Datapoint class
+class Datapoint:
+    def __init__(self, data: str):
+        self.data = data
+
+    def get_data(self):
+        return self.data
+
+# Abstract base class for DataProcessor
+class DataProcessor:
+    def __init__(self, mode: ModeIdentifier, database: DatabaseIdentifier):
+        self.mode = mode
+        self.database = database
+
+    def configure(self, mode: ModeIdentifier, database: DatabaseIdentifier):
+        self.mode = mode
+        self.database = database
+        print(f"Configured to mode: {mode} with database: {database}")
+
+    def process(self, data: Datapoint):
+        raise NotImplementedError("Subclasses should implement this method.")
+
+# Concrete implementation for Postgres
+class PostgresProcessor(DataProcessor):
+    def __init__(self, mode: ModeIdentifier, database: DatabaseIdentifier):
+        super().__init__(mode, database)
+
+    def connect(self):
+        print("Connecting to Postgres database...")
+
+    def insert(self, data: Datapoint):
+        print(f"Inserting data into Postgres: {data.get_data()}")
+
+    def validate(self, data: Datapoint):
+        print(f"Validating data for Postgres: {data.get_data()}")
+
+    def process(self, data: Datapoint):
+        if self.mode == ModeIdentifier.DUMP:
+            print("Data dumped.")
+        elif self.mode == ModeIdentifier.PASSTHROUGH:
+            self.connect()
+            self.insert(data)
+        elif self.mode == ModeIdentifier.VALIDATE:
+            self.connect()
+            self.validate(data)
+            self.insert(data)
+
+# Concrete implementation for Redis
+class RedisProcessor(DataProcessor):
+    def __init__(self, mode: ModeIdentifier, database: DatabaseIdentifier):
+        super().__init__(mode, database)
+
+    def connect(self):
+        print("Connecting to Redis database...")
+
+    def insert(self, data: Datapoint):
+        print(f"Inserting data into Redis: {data.get_data()}")
+
+    def validate(self, data: Datapoint):
+        print(f"Validating data for Redis: {data.get_data()}")
+
+    def process(self, data: Datapoint):
+        if self.mode == ModeIdentifier.DUMP:
+            print("Data dumped.")
+        elif self.mode == ModeIdentifier.PASSTHROUGH:
+            self.connect()
+            self.insert(data)
+        elif self.mode == ModeIdentifier.VALIDATE:
+            self.connect()
+            self.validate(data)
+            self.insert(data)
+
+# Concrete implementation for Elastic
+class ElasticProcessor(DataProcessor):
+    def __init__(self, mode: ModeIdentifier, database: DatabaseIdentifier):
+        super().__init__(mode, database)
+
+    def connect(self):
+        print("Connecting to Elastic database...")
+
+    def insert(self, data: Datapoint):
+        print(f"Inserting data into Elastic: {data.get_data()}")
+
+    def validate(self, data: Datapoint):
+        print(f"Validating data for Elastic: {data.get_data()}")
+
+    def process(self, data: Datapoint):
+        if self.mode == ModeIdentifier.DUMP:
+            print("Data dumped.")
+        elif self.mode == ModeIdentifier.PASSTHROUGH:
+            self.connect()
+            self.insert(data)
+        elif self.mode == ModeIdentifier.VALIDATE:
+            self.connect()
+            self.validate(data)
+            self.insert(data)
+
+# Example usage
+if __name__ == "__main__":
+    data = Datapoint("Sample Data")
+    processor = PostgresProcessor(ModeIdentifier.VALIDATE, DatabaseIdentifier.POSTGRES)
+    processor.process(data)
